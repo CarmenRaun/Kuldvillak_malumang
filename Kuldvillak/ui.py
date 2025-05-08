@@ -3,8 +3,8 @@ import time
 import os
 
 #Mängus kasutatud fondid
-CUSTOM_FONT_2 = "PressStart2P-Regular.ttf" #(allikas: )
-CUSTOM_FONT_DYNAMIC = "Montserrat-SemiBold.ttf" #(allikas: )
+CUSTOM_FONT_2 = "PressStart2P-Regular.ttf" #(allikas: https://fonts.google.com/specimen/Press+Start+2P )
+CUSTOM_FONT_DYNAMIC = "Montserrat-SemiBold.ttf" #(allikas:https://fonts.google.com/specimen/Montserrat )
 
 #Mängus kasutatud värvid ja varjud
 WHITE = (255, 255, 255)
@@ -325,16 +325,11 @@ def draw_grid(current_round, money_values, teams):
         controller_number = i + 1
         x = int(screen.get_width() / len(teams) * i + 10)
         y = screen.get_height() - 60
-        #Tühjeneva patarei pilt
+        #Tühjenev patarei
         if controller_number in low_battery_controllers:
-          #  icon = BATTERY_ICON
             voltage_text = low_battery_controllers[controller_number][0]
         else:
-            #Täis patarei pilt
-          #  icon = BATTERY_ICON_OK
             voltage_text = ""
-      #  screen.blit(icon, (x, y))
-        #Protsendi kuvamine
         font = pygame.font.Font(None, 18)
         text_surface = font.render(voltage_text, True, WHITE)
         screen.blit(text_surface, (x + 28, y + 4))
@@ -368,7 +363,7 @@ def handle_timer_expired():
     pygame.time.delay(500) 
       
 #Joonistab küsimuse akna koos timeriga ning kui küsimuses on pilt, siis kuvab ka pildi(piltküsimus)
-#Kuvab esimesena puldinuppy vajutanud mängija
+#Kuvab esimesena puldinuppu vajutanud mängija
 def draw_question(selected_col, selected_row, question_text, timer_started, timer_start, timer_paused, pause_time, selected_points, latest_button_press):
     global question_faded, showing_question
 
@@ -482,7 +477,7 @@ def draw_answer(selected_col, selected_row, answers_db):
         team_text_rect = team_text.get_rect(center=(screen.get_width() // 2, screen.get_height() - 160))
         screen.blit(team_text, team_text_rect)
 
-#Patarei pinge protsendiks arvutamine (viide: https://calculator.academy/battery-voltage-percentage-calculator/)
+#Patarei pinge protsendiks arvutamine (Allikas: https://calculator.academy/battery-voltage-percentage-calculator/)
 def voltage_to_percentage(voltage, max_v=9.0):
     percentage = (voltage ) / (max_v ) * 100
     #Vahemik 0% - 100%
