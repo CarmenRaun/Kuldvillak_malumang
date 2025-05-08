@@ -225,11 +225,12 @@ def load_double_jeopardy_round():
     print("Topeltvillakusse switch!")
     select_hobevillak_question()
     
-#Kontroll, kas kõik küsimused voorus on vastatud
+#Kontrollib/Tagastab, kas kõik küsimused voorus on vastatud
 def is_round_complete():
     return all(all(row) for row in ui.revealed)
 
 #Küsib ja tagastab mängijate sisestatud finaalvooru panused
+#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
 def ask_for_final_wager(team_name):
     input_active = True
     wager_input = ""
@@ -267,6 +268,7 @@ def ask_for_final_wager(team_name):
     return min(wager, max_points)
 
 #Küsib, kas finaalvooru mängijad vastasid õigesti
+#Allikas: 
 def ask_final_correctness(team_name):
     input_active = True
     while input_active:
