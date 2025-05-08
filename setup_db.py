@@ -3,7 +3,7 @@
 
 import sqlite3
 
-#Loo andmebaas nimega "questions.db"
+#Loo andmebaas nimega "questions.db" 
 conn = sqlite3.connect("questions.db")
 cursor = conn.cursor()
 
