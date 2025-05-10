@@ -81,8 +81,9 @@ controller_press_log = []
 questions_db = {}
 answers_db = {}
 
-#Arvutab ja uuendab mänguvälja suurust vastavalt akna suuruse muutumisele
-#Allikas: https://www.pygame.org/docs/ref/surface.html
+'''Arvutab ja uuendab mänguvälja suurust vastavalt akna suuruse muutumisele
+Allikas: https://www.pygame.org/docs/ref/surface.html
+'''
 def update_grid_dimensions():
     global CELL_WIDTH, CELL_HEIGHT
     if COLUMNS == 0 or ROWS == 0:
@@ -92,15 +93,17 @@ def update_grid_dimensions():
         CELL_WIDTH = screen.get_width() // COLUMNS
         CELL_HEIGHT = (screen.get_height() - 200) // (ROWS + 1)
 
-#Tagastatakse dünaamiliselt muutuv tekst, mis sõltub akna suurusest
-#Allikas: https://www.pygame.org/docs/ref/font.html
+'''Tagastatakse dünaamiliselt muutuv tekst, mis sõltub akna suurusest
+Allikas: https://www.pygame.org/docs/ref/font.html
+'''
 def get_dynamic_font(size_factor):
     size = max(20, int(screen.get_width() * size_factor))
     return pygame.font.Font(CUSTOM_FONT_DYNAMIC, size)
 
-#Teksti jaotamine mitmele reale, et mahutada optimaalselt ekraanile
-#Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
-#Modifitseeritud 
+'''Teksti jaotamine mitmele reale, et mahutada optimaalselt ekraanile
+Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+Allikas: https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame
+'''
 def render_multiline_text(text, font, color, max_width):
     words = text.split(' ')
     lines = []
@@ -117,9 +120,10 @@ def render_multiline_text(text, font, color, max_width):
     rendered_lines = [font.render(line.strip(), True, color) for line in lines]
     return rendered_lines
 
-#Joonistab kõik vajutatavad nupud ekraanile
-#Allikas: https://www.geeksforgeeks.org/pygame-surface-blit-function/
-#Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''Joonistab kõik vajutatavad nupud ekraanile
+Allikas: https://www.geeksforgeeks.org/pygame-surface-blit-function/
+Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''
 def draw_buttons(surface, rect, text, font, text_color=BLUE, button_color=YELLOW):
     shadow_offset = 6
     shadow_rect = pygame.Rect(rect.x + shadow_offset, rect.y + shadow_offset, rect.width, rect.height)
@@ -130,8 +134,9 @@ def draw_buttons(surface, rect, text, font, text_color=BLUE, button_color=YELLOW
     label_rect = label.get_rect(center=rect.center)
     surface.blit(label, label_rect)
     
-#Joonistab esimese ekraani, kust võimalik valida mäng variant (pultidega või pultideta) 
-#Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''Joonistab esimese ekraani, kust võimalik valida mäng variant (pultidega või pultideta) 
+Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''
 def draw_welcome_screen():
     global start_button_rect, debug_button_rect
 
@@ -160,8 +165,9 @@ def draw_welcome_screen():
     draw_buttons(screen, start_button_rect, "Alusta", BUTTON_FONT)
     draw_buttons(screen, debug_button_rect, "Testi ilma pultideta", BUTTON_FONT)
 
-#Joonistab Menüü, kus on võimalik teha erinevaid valikuid
-#Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''Joonistab Menüü, kus on võimalik teha erinevaid valikuid
+Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''
 def draw_menu_options():
     global menu_buttons
     screen.fill(BLUE)
@@ -200,8 +206,9 @@ def draw_menu_options():
     draw_battery_status()
     
 
-#Joonistab ekraani, kus on võimalik valida mängijate/pultide arv
-#Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''Joonistab ekraani, kus on võimalik valida mängijate/pultide arv
+Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''
 def draw_team_selection(current_team_selection):
     screen.fill(BLUE)
 
@@ -221,8 +228,9 @@ def draw_team_selection(current_team_selection):
         text_rect = text.get_rect(center=(screen.get_width() // 2, base_y + (i - 2) * spacing))  
         screen.blit(text, text_rect)
         
-#Joonistab ekraani, kus on võimalik sisestada mängijate nimed
-#Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''Joonistab ekraani, kus on võimalik sisestada mängijate nimed
+Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''
 def draw_team_name_entry(team_names, temp_team_name):
     screen.fill(BLUE)
 
@@ -235,10 +243,11 @@ def draw_team_name_entry(team_names, temp_team_name):
     name_text_rect = name_text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 3))
     screen.blit(name_text, name_text_rect)
 
-#Joonistab mängijate nimed mänguväljadele koos punktiskooride ning +/- nuppudega skoori modifitseerimiseks
-#Muudab dünaamiliselt nimede ning +/- ikoonide paigutust vastavalt mängijate arvule
-#Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
-#Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''Joonistab mängijate nimed mänguväljadele koos punktiskooride ning +/- nuppudega skoori modifitseerimiseks
+Muudab dünaamiliselt nimede ning +/- ikoonide paigutust vastavalt mängijate arvule
+Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''
 def draw_teams(teams):
     global plus_buttons, minus_buttons 
     
@@ -284,7 +293,7 @@ def draw_teams(teams):
         screen.blit(plus_img_scaled, plus_img_scaled.get_rect(center=plus_rect.center))
         screen.blit(minus_img_scaled, minus_img_scaled.get_rect(center=minus_rect.center))
         
- #Joonistab vooru kategooriate kuvamise enne vastava mänguvälja avamist     
+'''Joonistab vooru kategooriate kuvamise enne vastava mänguvälja avamist'''    
 def draw_category_intro(current_round, index):
     screen.fill(BLUE)
     TITLE_FONT = get_dynamic_font(0.07)
@@ -297,8 +306,10 @@ def draw_category_intro(current_round, index):
 
     pygame.display.flip()
         
-#Joonistab mänguvälja(vastavalt voorule) koos kategooriate, punktisummadega, tiimidega ja puldi patarei %-ga
-#Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+'''Joonistab mänguvälja(vastavalt voorule) koos kategooriate, punktisummadega, tiimidega ja puldi patarei %-ga
+Allikas: https://pygame.readthedocs.io/en/latest/rect/rect.html
+Modifitseeritud: Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def draw_grid(current_round, money_values, teams):
     global low_battery_controllers, back_button_rect  
 
@@ -367,7 +378,7 @@ def draw_grid(current_round, money_values, teams):
 
     draw_battery_status()
 
-#Kuvab timeri küsimuse ekraanil kui aeg saab otsa ning kuvab automaatselt vastuse ekraani
+'''Kuvab timeri küsimuse ekraanil kui aeg saab otsa ning kuvab automaatselt vastuse ekraani'''
 def handle_timer_expired():
     global showing_question, showing_answer
     print("⏳ Aeg on läbi!")
@@ -375,10 +386,12 @@ def handle_timer_expired():
     showing_answer = True  
     pygame.time.delay(500) 
       
-#Joonistab küsimuse akna koos timeriga ning kui küsimuses on pilt, siis kuvab ka pildi(piltküsimus)
-#Kuvab esimesena puldinuppu vajutanud mängija
-#Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
-#Allikas: https://www.pygame.org/docs/ref/image.html#pygame.image.load
+'''Joonistab küsimuse akna koos timeriga ning kui küsimuses on pilt, siis kuvab ka pildi(piltküsimus)
+Kuvab esimesena puldinuppu vajutanud mängija
+Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+Allikas: https://www.pygame.org/docs/ref/image.html#pygame.image.load
+Allikas: https://www.pygame.org/docs/ref/image.html#pygame.image.load
+'''
 def draw_question(selected_col, selected_row, question_text, timer_started, timer_start, timer_paused, pause_time, selected_points, latest_button_press):
     global question_faded, showing_question
 
@@ -460,8 +473,9 @@ def draw_question(selected_col, selected_row, question_text, timer_started, time
     screen.blit(instructions_text, instructions_rect)
 
 
-#Joonistab vastuse ekraani
+'''Joonistab vastuse ekraani
 #Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+'''
 def draw_answer(selected_col, selected_row, answers_db):
     screen.fill(BLUE)
 
@@ -493,13 +507,13 @@ def draw_answer(selected_col, selected_row, answers_db):
         team_text_rect = team_text.get_rect(center=(screen.get_width() // 2, screen.get_height() - 160))
         screen.blit(team_text, team_text_rect)
 
-#Patarei pinge protsendiks arvutamine (Allikas: https://calculator.academy/battery-voltage-percentage-calculator/)
+'''Patarei pinge protsendiks arvutamine (Allikas: https://calculator.academy/battery-voltage-percentage-calculator/)'''
 def voltage_to_percentage(voltage, max_v=9.0):
     percentage = (voltage ) / (max_v ) * 100
     #Vahemik 0% - 100%
     return max(0, min(100, int(percentage))) 
 
-#Joonistab patarei tühjenemise teate, kui puldi patarei protsent on alla 50% 
+'''Joonistab patarei tühjenemise teate, kui puldi patarei protsent on alla 50% '''
 def draw_battery_status():
     if not low_battery_controllers:
         return
@@ -529,9 +543,10 @@ def draw_battery_status():
         screen.blit(battery_icon, (x, y))
         screen.blit(warning_text, (x + icon_size + spacing, y))
         
-#Küsib kasutajalt hõbevillaku punktide summa ning tagastab sisestatud punktid või vaikimisi punktid
-#Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
-#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''Küsib kasutajalt hõbevillaku punktide summa ning tagastab sisestatud punktid või vaikimisi punktid
+Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''
 def ask_for_hobevillak_points():
     input_active = True
     custom_points = ""
@@ -564,8 +579,9 @@ def ask_for_hobevillak_points():
 
     return int(custom_points) if custom_points else 0  
 
-#Joonistab finaalvooru kategooria
-#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''Joonistab finaalvooru kategooria
+Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''
 def draw_final_intro(final_category):
     screen.fill(BLUE)
 
@@ -582,9 +598,10 @@ def draw_final_intro(final_category):
     draw_battery_status()
     pygame.display.flip()
     
-#Joonistab finaalküsimuse panuste ekraani
-#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
-#Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+'''Joonistab finaalküsimuse panuste ekraani
+Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+'''
 def draw_final_wager_screen(team_name, teams):
     screen.fill(BLUE)
     
@@ -601,11 +618,12 @@ def draw_final_wager_screen(team_name, teams):
     screen.blit(input_text, input_rect)
     pygame.display.flip()
 
-#Tagastab hetkel valitud kategooria (1. või 2. voor)
+'''Tagastab hetkel valitud kategooria (1. või 2. voor)'''
 def get_current_categories(current_round):
     return categories_round1 if current_round == 1 else categories_round2
 
-#Joonistab instruktsioonide ekraani koos instruktsioonidega
+'''Joonistab instruktsioonide ekraani koos instruktsioonideg
+Allikas: https://stackoverflow.com/questions/43214305/how-to-use-text-strip-function'''
 def draw_instructions():
     screen.fill(BLUE)
     
@@ -636,9 +654,10 @@ def draw_instructions():
         screen.blit(instr_text, instr_rect)
     pygame.display.flip()    
 
-#Joonistab puldi testimise ekraani
-#Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
-
+'''Joonistab puldi testimise ekraani
+Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+Allikas: https://docs.python.org/3/library/time.html#time.time
+'''
 def draw_controller_test(screen):
     from time import time
     global controller_press_log
@@ -664,8 +683,9 @@ def draw_controller_test(screen):
         text = INFO_FONT.render(msg, True, (0, 255, 127))
         screen.blit(text, (screen.get_width() // 2 - text.get_width() // 2, 300 + i * 40))       
 
-#Joonistab finaalküsimuse vastus
-#Allikas: 
+'''Joonistab finaalküsimuse vastuse
+#Allikas: https://stackoverflow.com/questions/42577197/pygame-how-to-correctly-use-get-rect
+'''
 def draw_final_answer(final_answer):
     global final_back_button_rect
     screen.fill(BLUE)
@@ -696,8 +716,9 @@ def draw_final_answer(final_answer):
     
     pygame.display.flip()
 
-#Joonistab finaalküsimuse
+'''Joonistab finaalküsimuse
 #Allikas: https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''
 def draw_final_question(final_question):
     screen.fill(BLUE)
 
@@ -722,9 +743,10 @@ def draw_final_question(final_question):
     draw_battery_status()
     pygame.display.flip()
     
-#Joonistab värvi gradiendiga ristküliku punktisummade ümber, et parandada mängu visuaalsust
+'''Joonistab värvi gradiendiga ristküliku punktisummade ümber, et parandada mängu visuaalsust
 #Allikas: https://stackoverflow.com/questions/61043017/how-to-make-an-object-fades-color-in-pygame
-#
+Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 6, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def draw_fade_rect(surface, rect, color1, color2):
     
     fade_surface = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
@@ -739,7 +761,7 @@ def draw_fade_rect(surface, rect, color1, color2):
 
     surface.blit(fade_surface, (rect.x, rect.y))
 
-#Algseadistab kasutajaliidese ja tagab ekraani skaleerumise ning resolutsiooni kohandumise vastavalt
+'''Algseadistab kasutajaliidese ja tagab ekraani skaleerumise ning resolutsiooni kohandumise vastavalt'''
 def init_ui(scr):
     global screen, TEAM_FONT, QUESTION_FONT
     screen = scr

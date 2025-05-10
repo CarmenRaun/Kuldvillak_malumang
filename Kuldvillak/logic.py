@@ -99,8 +99,9 @@ final_phase_state = "intro"
 questions_db = {}
 answers_db = {}
 
-#Ühendus Arduino Unoga COM3 pordi kaudu, allikas: https://forum.arduino.cc/t/serial-communication-with-python-beginner-qestion/944780/17
-#modifitseeritud Chat GPT abil :ChatGPT. (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com 
+'''Ühendus Arduino Unoga COM3 pordi kaudu, allikas: https://forum.arduino.cc/t/serial-communication-with-python-beginner-qestion/944780/17
+modifitseeritud Chat GPT abil :ChatGPT. (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com 
+'''
 def initialize_serial_connection():
     global ser, DEBUG_MODE
     if ser and ser.is_open:
@@ -119,8 +120,9 @@ def initialize_serial_connection():
         ser = None
         return False
 
-#Laeb küsimused andmebaasi tabelitest, allikas: https://github.com/jesstess/JeopardyDatabase/blob/master/jeopardy_clues.py ja
-#modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com 
+''''Laeb küsimused andmebaasi tabelitest, allikas: https://github.com/jesstess/JeopardyDatabase/blob/master/jeopardy_clues.py ja
+modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com 
+'''
 def load_questions_from_db():
     global questions_db, answers_db
     conn = sqlite3.connect("questions.db")
@@ -146,9 +148,10 @@ def load_questions_from_db():
     conn.close()
     ui.image_db = image_db
     
-#Laeb eraldi finaal vooru küsimuse andmebaasi tabelist "final_jeopardy"(eraldi vajalik selle veergude arvu tõttu)
-#Allikas: https://github.com/jesstess/JeopardyDatabase/blob/master/jeopardy_clues.py ja
-#modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com 
+'''Laeb eraldi finaal vooru küsimuse andmebaasi tabelist "final_jeopardy"(eraldi vajalik selle veergude arvu tõttu)
+Allikas: https://github.com/jesstess/JeopardyDatabase/blob/master/jeopardy_clues.py ja
+modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com 
+'''
 def load_final_question():
     global final_question, final_answer, final_category
     conn = sqlite3.connect("questions.db")
@@ -159,8 +162,9 @@ def load_final_question():
         final_category, final_question, final_answer = row
     conn.close()
 
-#Juhuslik Hõbevillaku küsimuse valimine vastavalt voorule
-#Allikas: https://www.geeksforgeeks.org/python-random-sample-function/
+'''Juhuslik Hõbevillaku küsimuse valimine vastavalt voorule
+Allikas: https://www.geeksforgeeks.org/python-random-sample-function/
+'''
 def select_hobevillak_question():
     global hobevillak_questions
     valid_questions = list(questions_db.keys())
@@ -174,8 +178,9 @@ load_questions_from_db()
 select_hobevillak_question()
 print(f"Laetud {len(questions_db)} küsimused")
 
-#Mängijate arvu valimine nooleklahvide abil
-#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''Mängijate arvu valimine nooleklahvide abil
+Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''
 def handle_team_selection(event):
     global num_teams, current_team_selection, teams, team_selection_done, entering_team_names
     if event.type == pygame.KEYDOWN:
@@ -187,9 +192,10 @@ def handle_team_selection(event):
             num_teams = current_team_selection
             entering_team_names = True
             
-#Mängija nimede sisestus klaviatuurilt
-#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
-#modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''Mängija nimede sisestus klaviatuurilt
+Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def handle_team_name_entry(event):
     global temp_team_name, team_names, entering_team_names,showing_category_intro, category_intro_start_time,category_intro_index, team_selection_done, teams
     if event.type == pygame.KEYDOWN:
@@ -214,7 +220,7 @@ def handle_team_name_entry(event):
         elif event.unicode.isprintable():
             temp_team_name += event.unicode
 
-#Topeltvillaku vooru laadimine           
+'''Topeltvillaku vooru laadimine'''           
 def load_double_jeopardy_round():
     global money_values, revealed, current_round, double_jeopardy_loaded
     current_round = 2
@@ -225,12 +231,14 @@ def load_double_jeopardy_round():
     print("Topeltvillakusse switch!")
     select_hobevillak_question()
     
-#Kontrollib/Tagastab, kas kõik küsimused voorus on vastatud
+'''Kontrollib/Tagastab, kas kõik küsimused voorus on vastatud'''
 def is_round_complete():
     return all(all(row) for row in ui.revealed)
 
-#Küsib ja tagastab mängijate sisestatud finaalvooru panused
-#Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+'''Küsib ja tagastab mängijate sisestatud finaalvooru panused
+Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
+Allikas:  https://www.pygame.org/docs/ref/font.html#pygame.font.Font.render
+'''
 def ask_for_final_wager(team_name):
     input_active = True
     wager_input = ""
@@ -267,8 +275,9 @@ def ask_for_final_wager(team_name):
     wager = int(wager_input) if wager_input else 0
     return min(wager, max_points)
 
-#Küsib, kas finaalvooru mängijad vastasid õigesti
-#Allikas: 
+'''Küsib, kas finaalvooru mängijad vastasid õigesti
+Allikas: https://www.pygame.org/docs/ref/event.html#pygame.event.get
+'''
 def ask_final_correctness(team_name):
     input_active = True
     while input_active:
@@ -286,7 +295,7 @@ def ask_final_correctness(team_name):
                 elif event.key == pygame.K_n:
                     return False
 
-#Tagasi menüüsse navigeerimine, lähtestades kõik algolekud
+'''Tagasi menüüsse navigeerimine, lähtestades kõik algolekud'''
 def back_to_menu_from_grid():
     global showing_menu_options, showing_question, showing_answer, selected_question
     global timer_started, timer_paused, pause_time, question_faded, answer_faded
@@ -306,7 +315,7 @@ def back_to_menu_from_grid():
     answer_faded = False
     latest_button_press = None
 
-#Tagasi avaekraanile liikumine, lähtestades algolekusse kõik senised mängu olekud
+'''Tagasi avaekraanile liikumine, lähtestades algolekusse kõik senised mängu olekud'''
 def reset_to_welcome_screen():
     global welcome_screen, showing_menu_options, DEBUG_MODE, teams, team_selection_done
     global temp_team_name, team_names, num_teams, selected_question, selected_team
@@ -348,14 +357,15 @@ def reset_to_welcome_screen():
     showing_instructions = False
     showing_final_intro = False
     
-#Võimaldab värskendada mängija punktiskoori
+'''Võimaldab värskendada mängija punktiskoori'''
 def update_team_score(team, points):
     if team in teams:
         teams[team] += points
 
-#Mängu lõpptulemuste salvestamine andmebaasi tabelisse results
-#Allikas: https://towardsdatascience.com/sqlite-3-using-pythons-sqlite-3-module-to-save-program-data-bc6b34dcc721/
-#modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud aprill 23, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''Mängu lõpptulemuste salvestamine andmebaasi tabelisse results
+Allikas: https://towardsdatascience.com/sqlite-3-using-pythons-sqlite-3-module-to-save-program-data-bc6b34dcc721/
+modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud aprill 23, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def save_results_to_db():
     try:
         conn = sqlite3.connect("questions.db")
@@ -376,9 +386,10 @@ def save_results_to_db():
     except Exception as e:
         print(f"❌ Viga andmebaasi salvestamisel: {e}")
 
-#Mängu lõpptulemuste salvestamine CSV faili        
-#Allikas: https://www.geeksforgeeks.org/exporting-variable-to-csv-file-in-python/
-#Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud aprill 23, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''Mängu lõpptulemuste salvestamine CSV faili        
+Allikas: https://www.geeksforgeeks.org/exporting-variable-to-csv-file-in-python/
+Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud aprill 23, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def export_results_to_csv(filename="lõpptulemused.csv"):
     try:
         conn = sqlite3.connect("questions.db")
@@ -398,9 +409,10 @@ def export_results_to_csv(filename="lõpptulemused.csv"):
     except Exception as e:
         print(f"❌ Viga CSV eksportimisel: {e}")
         
-#Klaviatuuri vajutuste loogika
+'''Klaviatuuri vajutuste loogika
 #Allikas: https://www.geeksforgeeks.org/how-to-get-keyboard-input-in-pygame/
 ##Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def handle_key_press(event):
     global showing_question, showing_answer, selected_team, selected_points, answer_faded
     global team_selection_done, entering_team_names, temp_team_name, team_names, latest_button_press, selected_question
@@ -552,9 +564,10 @@ def handle_key_press(event):
            timer_paused = True
            pause_time = time.time()
 
-#Hiirevajutuste/nupude loogika
+'''Hiirevajutuste/nupude loogika
 #Allikas: https://www.pygame.org/docs/ref/mouse.html
 #Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def handle_mouse_click():
     global selected_question, showing_question, selected_points, selected_col, selected_row, latest_button_press, question_faded, answer_faded
     global showing_instructions, team_selection_done, entering_team_names, temp_team_name, team_names, num_teams, teams, revealed
@@ -733,9 +746,10 @@ def handle_mouse_click():
     else:
         selected_points = money_values[col][row]
 
-#Loeb Arduino Uno serial monitorist infot, et kasutada neid mänguloogikas
-#Allikas: https://forum.arduino.cc/t/using-python-to-read-and-process-serial-data-from-arduino/1059079
-#Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''Loeb Arduino Uno serial monitorist infot, et kasutada neid mänguloogikas
+Allikas: https://forum.arduino.cc/t/using-python-to-read-and-process-serial-data-from-arduino/1059079
+Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
+'''
 def read_arduino():
     global latest_button_press, timer_paused, pause_time, ser
     while True:
@@ -799,7 +813,6 @@ def read_arduino():
             time.sleep(1) 
 
 #Mängu tsükkel
-#Modifitseeritud Chat GPT abil: (2025), OpenAI. Kasutatud märts 5, 2025. [Võrgumaterjal] Saadaval: https://chat.openai.com
 running = True
 while running:
     screen.fill(BLUE)
